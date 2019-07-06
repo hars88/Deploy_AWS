@@ -87,7 +87,8 @@ resource "aws_elb" "Company_News-elb" {
     lb_port = 443
     lb_protocol = "https"
     instance_port = "${var.server_port}"
-    instance_protocol = "http"
+    instance_protocol = "https"
+    ssl_certificate_id = "${var.ssl_certificate_id}" 
   }
 }
 
@@ -95,7 +96,7 @@ resource "aws_elb" "Company_News-elb" {
 resource "aws_security_group" "Company_News-lc-sg" {
   name = "Company_News-lc-sg"
 
-  # Inbound HTTP from anywhere
+  # Inbound HTTPS from anywhere
   ingress {
     from_port = "${var.server_port}"
     to_port = "${var.server_port}"
@@ -134,7 +135,7 @@ resource "aws_security_group" "Company_News-elb-sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # Inbound HTTP from anywhere
+  # Inbound HTTPS from anywhere
   ingress {
     from_port = "${var.server_port}"
     to_port = "${var.server_port}"
